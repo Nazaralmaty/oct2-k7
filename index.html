@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#f6efe9">
+<title>2 октября</title>
+<style>
+  :root {
+    --bg: #f6efe9;
+    --card: #fffaf6;
+    --ink: #3b2f33;
+    --ink2: #8a7a7f;
+    --pink: #e9b8c3;
+    --pink-deep: #c9788b;
+    --blue: #aac6e8;
+    --line: #eadbd3;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font: 17px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    min-height: 100dvh;
+    background:
+      radial-gradient(60vmax 60vmax at 110% -10%, #dfe9f6 0, transparent 60%),
+      radial-gradient(50vmax 50vmax at -20% 110%, #f7dde3 0, transparent 60%),
+      var(--bg);
+    background-attachment: fixed;
+  }
+  main { max-width: 480px; margin: 0 auto; padding: 24px 16px calc(40px + env(safe-area-inset-bottom)); }
+  .top { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--ink2); margin-bottom: 18px; }
+  .dots { display: flex; gap: 5px; }
+  .dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--line); }
+  .dots i.on { background: var(--pink-deep); }
+  .wallet-btn { border: 0; background: none; color: var(--pink-deep); font: inherit; padding: 4px 0; cursor: pointer; }
+
+  .card { background: var(--card); border-radius: 22px; padding: 22px 18px; box-shadow: 0 1px 0 #fff inset, 0 10px 30px -18px rgba(0, 0, 0, .18); animation: rise .45s cubic-bezier(.2,.8,.2,1); }
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } }
+  .kicker { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--pink-deep); margin: 0 0 6px; }
+  h1, h2 { font-family: ui-serif, "New York", Georgia, serif; font-weight: 500; line-height: 1.15; margin: 0 0 12px; }
+  h1 { font-size: 34px; }
+  h2 { font-size: 26px; }
+  p { margin: 0 0 12px; }
+  .muted { color: var(--ink2); font-size: 15px; }
+
+  .media { margin: 4px -6px 16px; border-radius: 16px; overflow: hidden; background: #efe4de; }
+  .media img, .media video { display: block; width: 100%; max-height: 70dvh; object-fit: contain; background: #000; }
+  .media img { background: none; }
+  .ph { aspect-ratio: 4 / 5; display: grid; place-items: center; color: var(--ink2); font-size: 14px; text-align: center; padding: 20px; }
+
+  textarea, input {
+    width: 100%; font: inherit; color: var(--ink); background: #fff;
+    border: 1.5px solid var(--line); border-radius: 14px; padding: 12px 14px; outline: none;
+  }
+  textarea { min-height: 84px; resize: vertical; }
+  textarea:focus, input:focus { border-color: var(--pink); }
+  input.code { font-size: 28px; letter-spacing: .4em; text-align: center; padding: 10px; }
+  .btn {
+    display: block; width: 100%; margin-top: 12px; border: 0; border-radius: 14px; padding: 15px;
+    font: 600 17px/1 inherit; font-family: inherit; color: #fff; background: var(--pink-deep); cursor: pointer;
+    transition: transform .12s, opacity .2s;
+  }
+  .btn:active { transform: scale(.98); }
+  .btn[disabled] { opacity: .45; }
+  .msg { min-height: 22px; margin-top: 10px; font-size: 15px; color: var(--pink-deep); text-align: center; }
+  .shake { animation: shake .35s; }
+  @keyframes shake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+
+  .reward { text-align: center; padding: 8px 0 0; }
+  .reward h2 { font-size: 30px; }
+  .coupon {
+    margin: 14px auto 4px; max-width: 300px; padding: 16px; border-radius: 14px;
+    border: 2px dashed var(--pink); background: #fff6f8; font-family: ui-serif, Georgia, serif; font-size: 22px;
+  }
+  .coupon small { display: block; font: 13px -apple-system, sans-serif; color: var(--ink2); margin-bottom: 4px; letter-spacing: .06em; text-transform: uppercase; }
+
+  .list { list-style: none; padding: 0; margin: 0 0 16px; }
+  .list li { padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .list li:last-child { border: 0; }
+  .list b { display: block; font-size: 13px; color: var(--ink2); font-weight: 500; }
+
+  .sheet { position: fixed; inset: 0; background: rgba(59, 47, 51, .35); display: none; align-items: flex-end; z-index: 5; }
+  .sheet.open { display: flex; }
+  .sheet .card { width: 100%; max-width: 480px; margin: 0 auto; border-radius: 22px 22px 0 0; padding-bottom: calc(22px + env(safe-area-inset-bottom)); max-height: 80dvh; overflow: auto; }
+
+  .confetti { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 10; }
+  .confetti i { position: absolute; top: -12px; width: 9px; height: 14px; border-radius: 2px; animation: fall linear forwards; }
+  @keyframes fall { to { transform: translate3d(var(--dx), 110vh, 0) rotate(var(--r)); } }
+  @media (prefers-reduced-motion: reduce) { .card, .confetti i { animation: none; } .confetti { display: none; } }
+</style>
+</head>
+<body>
+<main id="app"></main>
+<div class="sheet" id="wallet"><div class="card" id="walletBody"></div></div>
+<div class="confetti" id="confetti"></div>
+
+<script>
+// Тексты — из ../тексты.md. Правки вносить там, потом сюда.
+// h — sha256 кода из ../коды.md.
+// ponytail: 4-значный код в sha256 перебирается за секунду — защита от подглядывания, не от взлома.
+const FLOW = [
+  { type: 'intro',
+    title: 'Туған күніңмен, жаным',
+    text: 'Это твой день рождения по шагам. На каждом шаге я спрошу что-нибудь про нас. Пиши любой ответ, неправильных нет. Потом я дам тебе код, и откроется следующий шаг.',
+    btn: 'Бастаймыз' },
+
+  { type: 'step', part: 'Ночь', id: 's1',
+    video: 'media/v_intro.mp4', photo: 'media/p1.jpg',
+    q: 'С чего всё началось?',
+    h: 'f3907a096c7c4b68d7516e9f321ff07c8c86a29fb0f6c86976040cdb5ddc1a67',
+    coupon: 'Поцелуй', rewardText: 'Действует всегда, просто покажи мне экран.' },
+
+  { type: 'gate', part: 'Ночь', id: 'g_morning',
+    title: 'На сегодня всё. Таңертең жалғасы бар.',
+    text: 'Иди спать. Утром я пришлю код.',
+    h: '335f13ccec68fcb9de22e60226df2c64b192ca4440dfa503795714ce6d0730e3' },
+
+  { type: 'video', part: 'Утро', id: 's2',
+    title: 'Қайырлы таң. Тебя тут хотят поздравить.',
+    video: 'media/v_doch.mp4' },
+
+  { type: 'step', part: 'Утро', id: 's3',
+    q: 'Что ты сейчас больше всего хочешь на завтрак?',
+    h: 'f8eebb16fad8156c037189e6940ed46ddc859410c65a31e17a91512622379a90',
+    rewardTitle: 'Есікті аш.', rewardText: 'Кофе тоже там.' },
+
+  { type: 'video', part: 'Утро', id: 's4',
+    title: 'А это она в параллельной вселенной.',
+    video: 'media/v_hero.mp4', coupon: 'Массаж, 20 минут' },
+
+  { type: 'gate', part: 'Утро', id: 'g_day',
+    title: 'Доедай спокойно.',
+    text: 'Следующий код пришлю после завтрака.',
+    h: '9c80d3de185ee86232640b71e01ad0f8a66d6c22121f69e503157f72dfe0a044' },
+
+  { type: 'step', part: 'День', id: 's5',
+    photo: 'media/p5.jpg',
+    q: 'Кто это и где мы?',
+    h: 'e734ce8f057a2863077c0e6e2d2baab2d05a98d063f7d916077db89488bf9dd5',
+    coupon: 'Неделя без посуды', rewardText: 'Посуду мою я.' },
+
+  { type: 'step', part: 'День', id: 's6',
+    photo: 'media/p6.jpg',
+    q: 'В каком мы тут городе?',
+    h: '1e2ea2a0a8f4aefb21bfa38ac71481c69345bfb7f7f8a34ecf169961a488b959',
+    rewardTitle: 'Помнишь.', rewardText: '' },
+
+  { type: 'step', part: 'День', id: 's7',
+    q: 'Какая песня всё время играла у нас в машине?',
+    h: '16251c20d0eff6727d56ebc8da8d73450abb0933f5c7322104bc77cd844972f5',
+    rewardTitle: 'Собирайся.', rewardText: 'В 13:30 у нас столик в ресторане. Дочку одеваю я.' },
+
+  { type: 'gate', part: 'День', id: 'g_evening',
+    title: 'Едем домой.',
+    text: 'Вечером будут последние шаги.',
+    h: 'da01e568d56bfbacce6e11e7902d9f972c566853b8c7a795e342002d203c525f' },
+
+  { type: 'step', part: 'Вечер', id: 's8',
+    photo: 'media/p8.jpg',
+    q: 'Что тут случилось?',
+    h: 'c363831cbfee684fa8a7d96b58cf42f5174ea935bc3b751fff18c237d34d0366',
+    coupon: 'Одно желание', rewardText: 'Любое, в пределах разумного.' },
+
+  { type: 'video', part: 'Вечер', id: 's9',
+    title: 'Это мы.',
+    video: 'media/v_story.mp4' },
+
+  { type: 'video', part: 'Вечер', id: 's10',
+    title: '',
+    video: 'media/v_final.mp4' },
+
+  { type: 'final', title: 'Туған күніңмен, жаным.' },
+];
+
+const KEY = 'dr-2026-10-02';
+const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || null; } catch { return null; } };
+const S = load() || { i: 0, answers: {}, coupons: [], phase: 'ask' };
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch {} };
+
+const app = document.getElementById('app');
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+async function sha(s) {
+  const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join('');
+}
+
+function media(it) {
+  let h = '';
+  if (it.video) h += `<div class="media"><video src="${it.video}" controls playsinline preload="metadata"
+      onerror="this.parentNode.innerHTML='<div class=ph>Здесь будет видео</div>'"></video></div>`;
+  if (it.photo) h += `<div class="media"><img src="${it.photo}" alt=""
+      onerror="this.parentNode.innerHTML='<div class=ph>Здесь будет фото</div>'"></div>`;
+  return h;
+}
+
+function bar(it) {
+  const steps = FLOW.filter(x => x.type !== 'intro' && x.type !== 'final');
+  const done = FLOW.slice(0, S.i).filter(x => x.type !== 'intro' && x.type !== 'final').length;
+  const dots = steps.map((_, k) => `<i class="${k < done ? 'on' : ''}"></i>`).join('');
+  const w = S.coupons.length ? `<button class="wallet-btn" onclick="openWallet()">Купоны · ${S.coupons.length}</button>` : '';
+  return `<div class="top"><span>${esc(it.part || '')}</span><div class="dots">${dots}</div>${w}</div>`;
+}
+
+function codeBox(label) {
+  return `<p class="muted">${label}</p>
+    <input class="code" id="code" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" placeholder="····">
+    <button class="btn" id="go">Открыть</button><div class="msg" id="msg"></div>`;
+}
+
+function render() {
+  const it = FLOW[S.i];
+  window.scrollTo(0, 0);
+  let h = '';
+
+  if (it.type === 'intro') {
+    h = `<div class="card"><p class="kicker">2 октября</p><h1>${esc(it.title)}</h1><p>${esc(it.text)}</p>
+      <button class="btn" onclick="next()">${esc(it.btn)}</button></div>`;
+  }
+
+  if (it.type === 'step') {
+    h = bar(it) + '<div class="card">' + media(it) + `<h2>${esc(it.q)}</h2>`;
+    if (S.phase === 'ask') {
+      h += `<textarea id="ans" placeholder="Напиши здесь">${esc(S.answers[it.id] || '')}</textarea>
+        <button class="btn" id="send">Ответить</button>`;
+    } else if (S.phase === 'code') {
+      h += `<p><i>«${esc(S.answers[it.id])}»</i></p>` + codeBox('Записал. Теперь код, он у меня.');
+    } else {
+      h += reward(it);
+    }
+    h += '</div>';
+  }
+
+  if (it.type === 'gate') {
+    h = bar(it) + `<div class="card"><h2>${esc(it.title)}</h2><p>${esc(it.text)}</p>` + codeBox('Код:') + '</div>';
+  }
+
+  if (it.type === 'video') {
+    h = bar(it) + '<div class="card">' + (it.title ? `<h2>${esc(it.title)}</h2>` : '') + media(it);
+    if (it.coupon) h += `<div class="coupon"><small>Купон</small>${esc(it.coupon)}</div>`;
+    h += `<button class="btn" onclick="next()">Әрі қарай</button></div>`;
+  }
+
+  if (it.type === 'final') {
+    const answers = FLOW.filter(x => x.q && S.answers[x.id])
+      .map(x => `<li><b>${esc(x.q)}</b>${esc(S.answers[x.id])}</li>`).join('');
+    h = `<div class="card"><p class="kicker">2 октября</p><h1>${esc(it.title)}</h1>
+      ${S.coupons.length ? `<p class="kicker" style="margin-top:18px">Твои купоны</p>` + S.coupons.map(c => `<div class="coupon">${esc(c)}</div>`).join('') : ''}
+      ${answers ? `<p class="kicker" style="margin-top:22px">Твои ответы сегодня</p><ul class="list">${answers}</ul>` : ''}
+      </div>`;
+  }
+
+  app.innerHTML = h;
+  bind(it);
+}
+
+function reward(it) {
+  return `<div class="reward">
+    ${it.rewardTitle ? `<h2>${esc(it.rewardTitle)}</h2>` : ''}
+    ${it.coupon ? `<div class="coupon"><small>Купон</small>${esc(it.coupon)}</div>` : ''}
+    ${it.rewardText ? `<p class="muted">${esc(it.rewardText)}</p>` : ''}
+    <button class="btn" onclick="next()">Әрі қарай</button></div>`;
+}
+
+function bind(it) {
+  const send = document.getElementById('send');
+  if (send) send.onclick = () => {
+    const v = document.getElementById('ans').value.trim();
+    if (!v) return document.getElementById('ans').focus();
+    S.answers[it.id] = v; S.phase = 'code'; save(); render();
+  };
+  const go = document.getElementById('go');
+  if (go) {
+    const inp = document.getElementById('code');
+    const check = async () => {
+      if ((await sha(inp.value.trim())) === it.h) {
+        confetti();
+        if (it.type === 'gate') return next();
+        if (it.coupon && !S.coupons.includes(it.coupon)) S.coupons.push(it.coupon);
+        S.phase = 'done'; save(); render();
+      } else {
+        document.getElementById('msg').textContent = 'Этот код не подходит. Спроси у меня ещё раз.';
+        inp.classList.remove('shake'); void inp.offsetWidth; inp.classList.add('shake');
+      }
+    };
+    go.onclick = check;
+    inp.onkeydown = e => { if (e.key === 'Enter') check(); };
+  }
+}
+
+function next() {
+  const it = FLOW[S.i];
+  if (it.type === 'video' && it.coupon && !S.coupons.includes(it.coupon)) S.coupons.push(it.coupon);
+  S.i = Math.min(S.i + 1, FLOW.length - 1); S.phase = 'ask'; save(); render();
+}
+
+function openWallet() {
+  document.getElementById('walletBody').innerHTML = `<h2>Твои купоны</h2>` +
+    S.coupons.map(c => `<div class="coupon">${esc(c)}</div>`).join('') +
+    `<p class="muted" style="text-align:center;margin-top:12px">Чтобы воспользоваться, покажи мне экран.</p>
+     <button class="btn" onclick="wallet.classList.remove('open')">Закрыть</button>`;
+  wallet.classList.add('open');
+}
+wallet.onclick = e => { if (e.target === wallet) wallet.classList.remove('open'); };
+
+function confetti() {
+  const box = document.getElementById('confetti');
+  const colors = ['#e9b8c3', '#c9788b', '#aac6e8', '#f3d9a4', '#ffffff'];
+  box.innerHTML = Array.from({ length: 60 }, () => {
+    const d = 1.6 + Math.random() * 1.6;
+    return `<i style="left:${Math.random() * 100}%;background:${colors[Math.random() * 5 | 0]};
+      --dx:${(Math.random() - .5) * 120}px;--r:${Math.random() * 720}deg;
+      animation-duration:${d}s;animation-delay:${Math.random() * .4}s"></i>`;
+  }).join('');
+  setTimeout(() => box.innerHTML = '', 3400);
+}
+
+render();
+</script>
+</body>
+</html>
