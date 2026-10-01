@@ -4,130 +4,213 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#f6efe9">
+<meta name="theme-color" content="#14123a">
 <title>2 октября</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&family=Yeseva+One&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #f6efe9;
-    --card: #fffaf6;
-    --ink: #3b2f33;
-    --ink2: #8a7a7f;
-    --pink: #e9b8c3;
-    --pink-deep: #c9788b;
-    --blue: #aac6e8;
-    --line: #eadbd3;
+/*
+  THESIS: день рождения как одно небо. Сайт окрашен в небо той части дня, где она сейчас:
+  ночь, утро, день, вечер. Прогресс — путь солнца и луны по дуге сверху. Отказ от плоской
+  открытки на кремовом фоне.
+  OWN-WORLD: палитра гортензий и неба — индиго ночи, персик утра, голубой дня, сиреневый закат.
+  Сплошные карточки, купоны-билеты с вырезами, фольга-перламутр, буквы-плитки, лепестки вместо конфетти.
+  Yeseva One для слов от сердца, Rubik для всего остального.
+  STORY: она видит, где она в своём дне, что уже было и что её ждёт, и может пересмотреть каждое видео.
+  FIRST VIEWPORT: дуга дня с луной во всю ширину, под ней крупный заголовок и одна кнопка.
+*/
+  :root { color-scheme: light dark; }
+  body[data-part="Ночь"] {
+    --card: #221e57; --ink: #f6f1fb; --ink2: #bdb5df; --accent: #f4b9d0; --on-accent: #2a1840;
+    --line: rgba(255,255,255,.14); --field: #18154a; --soft: #342c74; --soft-ink: #f6e3ee; --orb: #fff1cf;
+  }
+  body[data-part="Утро"] {
+    --card: #fffaf7; --ink: #3a1f31; --ink2: #7a5566; --accent: #c2447a; --on-accent: #fff;
+    --line: #f0d8d6; --field: #fff; --soft: #ffe4ea; --soft-ink: #6d2446; --orb: #ffb36b;
+  }
+  body[data-part="День"] {
+    --card: #ffffff; --ink: #19284d; --ink2: #4d5d86; --accent: #3a60c2; --on-accent: #fff;
+    --line: #d5e1f5; --field: #fff; --soft: #e2ebfd; --soft-ink: #1f3a85; --orb: #ffd166;
+  }
+  body[data-part="Вечер"] {
+    --card: #2b2058; --ink: #fcf2f7; --ink2: #d3c0de; --accent: #ffc6a5; --on-accent: #3a1f44;
+    --line: rgba(255,255,255,.16); --field: #21184a; --soft: #463371; --soft-ink: #ffe9dc; --orb: #ffe7c2;
   }
   * { box-sizing: border-box; }
-  html, body { margin: 0; background: var(--bg); color: var(--ink); }
+  html { background: #14123a; }
   body {
-    font: 17px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    min-height: 100dvh;
-    background:
-      radial-gradient(60vmax 60vmax at 110% -10%, #dfe9f6 0, transparent 60%),
-      radial-gradient(50vmax 50vmax at -20% 110%, #f7dde3 0, transparent 60%),
-      var(--bg);
-    background-attachment: fixed;
+    margin: 0; min-height: 100dvh; color: var(--ink);
+    font: 17px/1.5 Rubik, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased; transition: color .6s;
   }
-  main { max-width: 480px; margin: 0 auto; padding: 24px 16px calc(40px + env(safe-area-inset-bottom)); }
-  .top { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--ink2); margin-bottom: 18px; }
-  .dots { display: flex; gap: 3px; }
-  .dots i { width: 5px; height: 5px; border-radius: 50%; background: var(--line); }
-  .dots i.on { background: var(--pink-deep); }
-  .wallet-btn { border: 0; background: none; color: var(--pink-deep); font: inherit; padding: 4px 0; cursor: pointer; }
 
-  .card { background: var(--card); border-radius: 22px; padding: 22px 18px; box-shadow: 0 1px 0 #fff inset, 0 10px 30px -18px rgba(0, 0, 0, .18); animation: rise .45s cubic-bezier(.2,.8,.2,1); }
-  @keyframes rise { from { opacity: 0; transform: translateY(14px); } }
-  .kicker { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--pink-deep); margin: 0 0 6px; }
-  h1, h2 { font-family: ui-serif, "New York", Georgia, serif; font-weight: 500; line-height: 1.15; margin: 0 0 12px; }
-  h1 { font-size: 34px; }
-  h2 { font-size: 26px; }
-  p { margin: 0 0 12px; }
+  /* Небо: четыре слоя, виден слой текущей части дня. */
+  .sky { position: fixed; inset: 0; z-index: -1; }
+  .sky i { position: absolute; inset: 0; opacity: 0; transition: opacity 1.4s cubic-bezier(.2,.8,.2,1); }
+  .sky .n { background: linear-gradient(180deg, #0f0d33 0%, #231d5e 55%, #4a3778 100%); }
+  .sky .m { background: linear-gradient(180deg, #ffc2b4 0%, #ffe0d6 45%, #fff4ef 100%); }
+  .sky .d { background: linear-gradient(180deg, #8fb6ef 0%, #c4daf8 50%, #eef4fe 100%); }
+  .sky .e { background: linear-gradient(180deg, #2d2168 0%, #6c3f8e 45%, #c46d97 75%, #f3a99a 100%); }
+  body[data-part="Ночь"] .sky .n, body[data-part="Утро"] .sky .m,
+  body[data-part="День"] .sky .d, body[data-part="Вечер"] .sky .e { opacity: 1; }
+  .stars { position: absolute; inset: 0; opacity: 0; transition: opacity 1.4s; }
+  .stars b { position: absolute; width: 2px; height: 2px; border-radius: 50%; background: #fff; animation: tw 3s ease-in-out infinite alternate; }
+  @keyframes tw { from { opacity: .25; } to { opacity: .9; } }
+  body[data-part="Ночь"] .stars { opacity: 1; }
+  body[data-part="Вечер"] .stars { opacity: .45; }
+
+  main { max-width: 480px; margin: 0 auto; padding: max(14px, env(safe-area-inset-top)) 16px calc(40px + env(safe-area-inset-bottom)); }
+
+  /* Дуга дня — прогресс. */
+  .top { margin: 0 -4px 14px; }
+  .arc { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: pointer; color: var(--ink); -webkit-tap-highlight-color: transparent; }
+  .arc svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .arc .path { fill: none; stroke: currentColor; stroke-opacity: .28; stroke-width: 1.2; stroke-dasharray: 2 5; stroke-linecap: round; }
+  .arc .done { fill: none; stroke: var(--accent); stroke-width: 2.4; stroke-linecap: round; }
+  .arc .dot { fill: currentColor; fill-opacity: .3; }
+  .arc .dot.on { fill: var(--accent); fill-opacity: 1; }
+  .arc .orb { fill: var(--orb); filter: drop-shadow(0 2px 6px rgba(0,0,0,.25)); }
+  .arc .crater { fill: #000; fill-opacity: .07; }
+  .meta { display: flex; justify-content: space-between; align-items: center; margin-top: -6px; padding: 0 4px; font-size: 14px; color: var(--ink2); }
+  .meta b { font-weight: 500; color: var(--ink); }
+  .daybtn { border: 0; border-radius: 999px; padding: 8px 14px; background: var(--soft); color: var(--soft-ink); font: 500 14px Rubik, sans-serif; cursor: pointer; }
+  .daybtn:active { transform: scale(.97); }
+
+  .card { background: var(--card); border-radius: 28px; padding: 24px 20px 22px; box-shadow: 0 1px 0 rgba(255,255,255,.08) inset, 0 22px 48px -26px rgba(10, 6, 40, .55); animation: rise .6s cubic-bezier(.16,1,.3,1); transition: background .6s; }
+  @keyframes rise { from { opacity: 0; transform: translateY(18px) scale(.985); filter: blur(4px); } }
+  .kicker { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin: 0 0 8px; }
+  body[data-part="Утро"] .kicker, body[data-part="День"] .kicker { color: var(--accent); }
+  h1, h2, h3 { font-family: "Yeseva One", ui-serif, Georgia, serif; font-weight: 400; line-height: 1.12; margin: 0 0 14px; text-wrap: balance; letter-spacing: -.005em; }
+  h1 { font-size: clamp(38px, 11vw, 48px); }
+  h2 { font-size: clamp(25px, 7vw, 30px); }
+  h3 { font-size: 22px; margin-bottom: 12px; }
+  p { margin: 0 0 12px; text-wrap: pretty; }
   .muted { color: var(--ink2); font-size: 15px; }
+  .quote { margin: -2px 0 16px; padding: 12px 14px; border-radius: 16px; background: var(--soft); color: var(--soft-ink); font-style: italic; }
 
-  .media { margin: 4px -6px 16px; border-radius: 16px; overflow: hidden; background: #efe4de; }
-  .media img, .media video { display: block; width: 100%; max-height: 70dvh; object-fit: contain; background: #000; }
+  .media { margin: 4px -8px 18px; border-radius: 20px; overflow: hidden; background: #000; }
+  .media img, .media video { display: block; width: 100%; max-height: 72dvh; object-fit: contain; background: #000; }
   .media img { background: none; }
-  .ph { aspect-ratio: 4 / 5; display: grid; place-items: center; color: var(--ink2); font-size: 14px; text-align: center; padding: 20px; }
+  .ph { aspect-ratio: 4 / 5; display: grid; place-items: center; color: #bbb; font-size: 14px; text-align: center; padding: 20px; }
 
   textarea, input {
-    width: 100%; font: inherit; color: var(--ink); background: #fff;
-    border: 1.5px solid var(--line); border-radius: 14px; padding: 12px 14px; outline: none;
+    width: 100%; font: inherit; color: var(--ink); background: var(--field);
+    border: 1.5px solid var(--line); border-radius: 18px; padding: 14px 16px; outline: none; transition: border-color .2s, box-shadow .2s;
   }
-  textarea { min-height: 84px; resize: vertical; }
-  textarea:focus, input:focus { border-color: var(--pink); }
-  input.code { font-size: 28px; letter-spacing: .4em; text-align: center; padding: 10px; }
+  textarea::placeholder, input::placeholder { color: var(--ink2); opacity: .8; }
+  textarea { min-height: 96px; resize: vertical; }
+  textarea:focus, input:focus { border-color: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent); }
+  input.code { font: 600 32px Rubik, sans-serif; letter-spacing: .45em; text-indent: .45em; text-align: center; padding: 12px; }
   .btn {
-    display: block; width: 100%; margin-top: 12px; border: 0; border-radius: 14px; padding: 15px;
-    font-family: inherit; font-size: 17px; font-weight: 600; line-height: 1; color: #fff; background: var(--pink-deep); cursor: pointer;
-    transition: transform .12s, opacity .2s;
+    display: block; width: 100%; margin-top: 14px; border: 0; border-radius: 999px; padding: 17px 20px;
+    font: 600 17px/1 Rubik, sans-serif; color: var(--on-accent); background: var(--accent); cursor: pointer;
+    box-shadow: 0 10px 22px -12px color-mix(in srgb, var(--accent) 80%, #000);
+    transition: transform .15s cubic-bezier(.2,.8,.2,1), opacity .2s;
   }
-  .btn:active { transform: scale(.98); }
+  .btn:active { transform: scale(.975); }
   .btn[disabled] { opacity: .45; }
-  .msg { min-height: 22px; margin-top: 10px; font-size: 15px; color: var(--pink-deep); text-align: center; }
+  .btn:focus-visible, .daybtn:focus-visible, .arc:focus-visible, .link:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+  .link { display: block; margin: 14px auto 0; border: 0; background: none; color: var(--ink2); font: 15px Rubik, sans-serif; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+  .msg { min-height: 22px; margin-top: 10px; font-size: 15px; color: var(--accent); text-align: center; }
   .shake { animation: shake .35s; }
   @keyframes shake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
 
-  .reward { text-align: center; padding: 8px 0 0; }
-  .reward h2 { font-size: 30px; }
-  .coupon {
-    position: relative; margin: 14px auto 4px; max-width: 300px; padding: 16px; border-radius: 14px;
-    border: 2px dashed var(--pink); background: #fff6f8; font-family: ui-serif, Georgia, serif; font-size: 22px;
-  }
-  .coupon small { display: block; font: 13px -apple-system, sans-serif; color: var(--ink2); margin-bottom: 4px; letter-spacing: .06em; text-transform: uppercase; }
+  .hero { padding: 30px 22px 22px; }
+  .hero.first { min-height: min(68dvh, 560px); display: flex; flex-direction: column; justify-content: flex-end; }
+  .hero.first h1 { font-size: clamp(46px, 14vw, 60px); line-height: 1.02; margin-bottom: 18px; }
+  .hero .date { font: 400 19px "Yeseva One", serif; color: var(--accent); margin: 0 0 10px; }
 
-  .foil { position: absolute; left: -2px; top: -2px; border-radius: 14px; touch-action: none; cursor: pointer; transition: opacity .4s; }
-  .foil.gone { opacity: 0; }
-  .letter { width: 64px; height: 64px; margin: 18px auto 6px; display: grid; place-items: center; border-radius: 14px; background: var(--ink); color: #fff; font: 500 34px ui-serif, Georgia, serif; }
-  .note { min-height: 44px; margin: 12px 0 0; text-align: center; color: var(--pink-deep); font-size: 15px; }
-  h3 { font: 500 21px/1.2 ui-serif, "New York", Georgia, serif; margin: 0 0 10px; }
+  .reward { text-align: center; padding: 4px 0 0; }
+  .reward h2 { font-size: clamp(28px, 8vw, 34px); }
+
+  /* Купон — билет с вырезами по бокам. */
+  .coupon {
+    position: relative; margin: 16px auto 6px; max-width: 320px; padding: 18px 26px; border-radius: 16px; text-align: center;
+    background: var(--soft); color: var(--soft-ink); font: 400 23px/1.2 "Yeseva One", serif;
+    -webkit-mask: radial-gradient(circle 11px at 0 50%, #0000 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 11px at 100% 50%, #0000 98%, #000) right / 51% 100% no-repeat;
+            mask: radial-gradient(circle 11px at 0 50%, #0000 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 11px at 100% 50%, #0000 98%, #000) right / 51% 100% no-repeat;
+  }
+  .coupon::after { content: ''; position: absolute; left: 22px; right: 22px; bottom: 9px; border-bottom: 1.5px dashed currentColor; opacity: .25; }
+  .coupon small { display: block; font: 600 12px Rubik, sans-serif; letter-spacing: .1em; text-transform: uppercase; opacity: .7; margin-bottom: 6px; }
+  .foil { position: absolute; left: 0; top: 0; touch-action: none; cursor: pointer; transition: opacity .5s, filter .5s; }
+  .foil.gone { opacity: 0; filter: blur(6px); }
+
+  .letter { width: 72px; height: 80px; margin: 20px auto 8px; display: grid; place-items: center; border-radius: 18px; background: var(--accent); color: var(--on-accent); font: 400 40px "Yeseva One", serif; box-shadow: 0 12px 24px -12px rgba(0,0,0,.45); animation: pop .7s cubic-bezier(.2,1.6,.4,1) .2s backwards; }
+  @keyframes pop { from { transform: scale(.4) rotate(-12deg); opacity: 0; } }
+  .note { min-height: 44px; margin: 12px 0 0; text-align: center; color: var(--accent); font-size: 15px; }
   #game button { -webkit-tap-highlight-color: transparent; }
 
-  .mem { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 6px; }
-  .mc { min-height: 96px; padding: 8px 6px; border: 0; border-radius: 14px; background: var(--pink-deep); color: #fff; font-family: inherit; font-size: 13px; line-height: 1.25; cursor: pointer; }
-  .mc::before { content: '♡'; font-size: 28px; }
+  .mem { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
+  .mc { min-height: 100px; padding: 8px 6px; border: 0; border-radius: 16px; background: var(--accent); color: var(--on-accent); font-family: inherit; font-size: 13px; line-height: 1.25; cursor: pointer; }
+  .mc::before { content: '✿'; font-size: 26px; opacity: .85; }
   .mc span { display: none; }
-  .mc.open, .mc.got { background: #fff; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--line); animation: flip .3s; }
+  .mc.open, .mc.got { background: var(--field); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--line); animation: flip .3s; }
   .mc.open::before, .mc.got::before { content: none; }
   .mc.open span, .mc.got span { display: block; }
-  .mc.q.open, .mc.q.got { background: #fff6f8; }
-  .mc.a span { font: 17px/1.15 ui-serif, Georgia, serif; }
-  .mc.got { box-shadow: inset 0 0 0 2px var(--pink); }
+  .mc.q.open, .mc.q.got { background: var(--soft); color: var(--soft-ink); }
+  .mc.a span { font: 17px/1.15 "Yeseva One", serif; }
+  .mc.got { box-shadow: inset 0 0 0 2px var(--accent); }
   @keyframes flip { 50% { transform: scaleX(0); } }
 
-  .opt { display: block; width: 100%; min-height: 48px; margin-top: 8px; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 14px; background: #fff; color: var(--ink); font-family: inherit; font-size: 16px; line-height: 1.3; text-align: left; cursor: pointer; transition: opacity .3s, background .3s, border-color .3s; }
+  .opt { display: block; width: 100%; min-height: 50px; margin-top: 8px; padding: 13px 16px; border: 1.5px solid var(--line); border-radius: 18px; background: var(--field); color: var(--ink); font-family: inherit; font-size: 16px; line-height: 1.3; text-align: left; cursor: pointer; transition: opacity .3s, background .3s, border-color .3s; }
   .opt.no { opacity: .3; text-decoration: line-through; }
-  .opt.yes { background: #fff6f8; border-color: var(--pink-deep); opacity: 1; }
+  .opt.yes { background: var(--soft); color: var(--soft-ink); border-color: var(--accent); opacity: 1; }
 
-  .pz { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; aspect-ratio: 4 / 3; margin: 4px -6px 0; border-radius: 16px; overflow: hidden; transition: gap .5s; }
+  .pz { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; aspect-ratio: 4 / 3; margin: 4px -8px 0; border-radius: 20px; overflow: hidden; transition: gap .5s; }
   .pz.whole { gap: 0; }
   .pt { border: 0; padding: 0; background-size: 300% 300%; cursor: pointer; }
-  .pt.sel { box-shadow: inset 0 0 0 4px var(--pink-deep); }
+  .pt.sel { box-shadow: inset 0 0 0 4px var(--accent); }
 
   .heart { display: grid; justify-items: center; margin: 8px auto 0; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; touch-action: none; cursor: pointer; }
-  .heart svg { width: 200px; height: 200px; transition: transform .3s; }
-  .heart.on svg { transform: scale(1.07); }
+  .heart svg { width: 210px; height: 210px; transition: transform .3s; }
+  .heart.on svg { transform: scale(1.07); animation: beat 1s ease-in-out infinite; }
+  @keyframes beat { 50% { transform: scale(1.12); } }
+  .heart .bg { fill: var(--soft); } .heart .fg { fill: var(--accent); }
 
-  .slots, .tiles { display: flex; justify-content: center; gap: 8px; margin: 14px 0; }
-  .lt { display: grid; place-items: center; width: 52px; height: 58px; border: 0; border-radius: 12px; background: var(--ink); color: #fff; font: 500 28px ui-serif, Georgia, serif; cursor: pointer; }
+  .slots, .tiles { display: flex; justify-content: center; gap: 8px; margin: 14px 0; flex-wrap: wrap; }
+  .lt { display: grid; place-items: center; width: 52px; height: 60px; border: 0; border-radius: 14px; background: var(--accent); color: var(--on-accent); font: 400 28px "Yeseva One", serif; cursor: pointer; }
   .lt[disabled] { opacity: .12; }
-  .lt.slot { background: #fff; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--line); }
+  .lt.slot { background: var(--field); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--line); }
+  .lt.empty { background: transparent; box-shadow: inset 0 0 0 1.5px var(--line); color: var(--ink2); font: 500 20px Rubik, sans-serif; }
 
-  .list { list-style: none; padding: 0; margin: 0 0 16px; }
-  .list li { padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .list { list-style: none; padding: 0; margin: 0 0 16px; text-align: left; }
+  .list li { padding: 12px 0; border-bottom: 1px solid var(--line); }
   .list li:last-child { border: 0; }
-  .list b { display: block; font-size: 13px; color: var(--ink2); font-weight: 500; }
+  .list b { display: block; font-size: 13px; color: var(--ink2); font-weight: 500; margin-bottom: 2px; }
 
-  .sheet { position: fixed; inset: 0; background: rgba(59, 47, 51, .35); display: none; align-items: flex-end; z-index: 5; }
-  .sheet.open { display: flex; }
-  .sheet .card { width: 100%; max-width: 480px; margin: 0 auto; border-radius: 22px 22px 0 0; padding-bottom: calc(22px + env(safe-area-inset-bottom)); max-height: 80dvh; overflow: auto; }
+  /* Лист «Наш день». */
+  .sheet { position: fixed; inset: 0; background: rgba(12, 8, 40, .45); display: none; align-items: flex-end; z-index: 5; }
+  .sheet.open { display: flex; animation: fade .25s; }
+  @keyframes fade { from { opacity: 0; } }
+  .sheet > .card { width: 100%; max-width: 480px; margin: 0 auto; border-radius: 28px 28px 0 0; padding-bottom: calc(22px + env(safe-area-inset-bottom)); max-height: 88dvh; overflow: auto; animation: up .4s cubic-bezier(.16,1,.3,1); }
+  @keyframes up { from { transform: translateY(40%); } }
+  .grab { width: 40px; height: 5px; border-radius: 3px; background: var(--line); margin: -10px auto 14px; }
+  .sec { font: 600 13px Rubik, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--ink2); margin: 24px 0 8px; }
+  .part { display: flex; align-items: center; gap: 10px; margin: 18px 0 4px; font: 400 20px "Yeseva One", serif; }
+  .part i { width: 28px; height: 28px; border-radius: 50%; flex: none; }
+  .part small { font: 14px Rubik, sans-serif; color: var(--ink2); }
+  .tl { list-style: none; margin: 0 0 0 13px; padding: 0 0 0 23px; border-left: 2px solid var(--line); }
+  .tl li { position: relative; padding: 9px 0; }
+  .tl li::before { content: ''; position: absolute; left: -31px; top: 14px; width: 14px; height: 14px; border-radius: 50%; background: var(--card); box-shadow: inset 0 0 0 2px var(--line); }
+  .tl li.done::before { background: var(--accent); box-shadow: none; }
+  .tl li.now::before { background: var(--card); box-shadow: inset 0 0 0 4px var(--accent); }
+  .tl li.later { color: var(--ink2); }
+  .tl .t { font-weight: 500; }
+  .tl .a { display: block; font-size: 14px; color: var(--ink2); font-style: italic; }
+  .tl .re { display: block; margin-top: 6px; border: 0; border-radius: 999px; padding: 6px 12px; background: var(--soft); color: var(--soft-ink); font: 500 13px Rubik, sans-serif; cursor: pointer; }
+  .tl .media { margin: 8px 0 4px; }
+  .mini { display: flex; flex-wrap: wrap; gap: 8px; }
+  .mini .coupon { margin: 0; flex: 1 1 140px; font-size: 18px; padding: 14px 20px; }
 
   .confetti { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 10; }
-  .confetti i { position: absolute; top: -12px; width: 9px; height: 14px; border-radius: 2px; animation: fall linear forwards; }
+  .confetti i { position: absolute; top: -16px; width: 12px; height: 12px; border-radius: 60% 0 60% 0; animation: fall linear forwards; }
   @keyframes fall { to { transform: translate3d(var(--dx), 110vh, 0) rotate(var(--r)); } }
-  @media (prefers-reduced-motion: reduce) { .card, .confetti i { animation: none; } .confetti { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .card, .letter, .sheet > .card, .confetti i, .stars b, .heart.on svg { animation: none; } .confetti { display: none; } }
 </style>
 </head>
 <body>
+<div class="sky" aria-hidden="true"><i class="n"></i><i class="m"></i><i class="d"></i><i class="e"></i><div class="stars" id="stars"></div></div>
 <main id="app"></main>
 <div class="sheet" id="wallet"><div class="card" id="walletBody"></div></div>
 <div class="confetti" id="confetti"></div>
@@ -142,36 +225,36 @@ const FLOW = [
     text: 'Это твой день рождения по шагам. На каждом шаге я спрошу что-нибудь про нас. Пиши любой ответ, неправильных нет. Потом я дам тебе код, и откроется следующий шаг. Между шагами будут игры, проиграть в них нельзя.',
     btn: 'Бастаймыз' },
 
-  { type: 'show', part: 'Ночь', id: 's0',
+  { type: 'show', part: 'Ночь', id: 's0', label: 'Сначала послушай',
     title: 'Сначала послушай меня.',
     video: 'media/v_intro.mp4' },
 
-  { type: 'step', part: 'Ночь', id: 's1',
+  { type: 'step', part: 'Ночь', id: 's1', label: 'Пальто',
     video: 'media/c1_palto.mp4',
     q: 'Февраль 2024-го, Nazar education. Мы ещё толком не знакомы, а ты уже унесла от меня домой одну вещь. Какую?',
     h: 'f3907a096c7c4b68d7516e9f321ff07c8c86a29fb0f6c86976040cdb5ddc1a67',
     rewardTitle: 'Моё пальто.', coupon: 'Поцелуй', rewardText: 'Действует всегда, просто покажи мне экран.', letter: 'Н' },
 
-  { type: 'gate', part: 'Ночь', id: 'g_morning',
+  { type: 'gate', part: 'Ночь', id: 'g_morning', label: 'Спокойной ночи',
     title: 'На сегодня всё. Таңертең жалғасы бар.',
     text: 'Иди спать. Утром я пришлю код.',
     h: '335f13ccec68fcb9de22e60226df2c64b192ca4440dfa503795714ce6d0730e3' },
 
-  { type: 'show', part: 'Утро', id: 's2',
+  { type: 'show', part: 'Утро', id: 's2', label: 'Айару поздравляет',
     title: 'Қайырлы таң. Тебя тут хотят поздравить.',
     video: 'media/v_doch.mp4' },
 
-  { type: 'step', part: 'Утро', id: 's3',
+  { type: 'step', part: 'Утро', id: 's3', label: 'Завтрак',
     q: 'Что ты сейчас больше всего хочешь на завтрак?',
     h: 'f8eebb16fad8156c037189e6940ed46ddc859410c65a31e17a91512622379a90',
     rewardTitle: 'Холодильникты аш.' },
 
-  { type: 'show', part: 'Утро', id: 's4',
+  { type: 'show', part: 'Утро', id: 's4', label: 'Параллельная вселенная',
     title: 'А это она в параллельной вселенной.',
     video: 'media/v_hero.mp4', coupon: 'Массаж, 5 минут' },
 
   // Игры — из ответов Дианы в «Наизусть» (Supabase naizust, август 2026). Проиграть нельзя.
-  { type: 'memory', part: 'Утро', id: 'm1',
+  { type: 'memory', part: 'Утро', id: 'm1', label: 'Пары из «Наизусть»',
     kicker: 'Игра', title: 'Пока завтракаешь.',
     text: 'Тут твои ответы из «Наизусть». Найди, какой ответ к какому вопросу.',
     pairs: [
@@ -184,24 +267,24 @@ const FLOW = [
     ],
     rewardTitle: 'Я помню всё, что ты написала.', letter: 'М' },
 
-  { type: 'gate', part: 'Утро', id: 'g_day',
+  { type: 'gate', part: 'Утро', id: 'g_day', label: 'После завтрака',
     title: 'Доедай спокойно.',
     text: 'Следующий код пришлю после завтрака.',
     h: '9c80d3de185ee86232640b71e01ad0f8a66d6c22121f69e503157f72dfe0a044' },
 
-  { type: 'step', part: 'День', id: 's5',
+  { type: 'step', part: 'День', id: 's5', label: 'Четыре утра',
     video: 'media/c3_4utra.mp4',
     q: 'Апрель 2024-го, четыре утра, «Гүлдер». Куда ты тогда сказала, что идёшь?',
     h: 'e734ce8f057a2863077c0e6e2d2baab2d05a98d063f7d916077db89488bf9dd5',
     rewardTitle: 'За хлебом, в четыре утра. А я поверил.', coupon: 'Сегодня кушаем вне дома' },
 
-  { type: 'step', part: 'День', id: 's6',
+  { type: 'step', part: 'День', id: 's6', label: 'Кино',
     video: 'media/c2_kino.mp4',
     q: 'Наш первый поход в кино, «Сарыарка». Что я тогда прошептал тебе на ухо?',
     h: '1e2ea2a0a8f4aefb21bfa38ac71481c69345bfb7f7f8a34ecf169961a488b959',
     rewardTitle: '«У меня болит в паху». Мне до сих пор стыдно.' },
 
-  { type: 'quiz', part: 'День', id: 'q1',
+  { type: 'quiz', part: 'День', id: 'q1', label: 'Теперь про меня',
     kicker: 'Игра', title: 'Теперь про меня.',
     text: 'Выбирай. Не тот вариант просто исчезнет.',
     qs: [
@@ -220,51 +303,51 @@ const FLOW = [
     ],
     rewardTitle: 'Ты знаешь меня наизусть.', rewardText: 'В игре ты угадала меня 11 раз из 12.', letter: 'А' },
 
-  { type: 'step', part: 'День', id: 's7',
+  { type: 'step', part: 'День', id: 's7', label: 'Сура',
     q: 'Какую суру мы в последнее время слушаем почти каждый день?',
     h: '16251c20d0eff6727d56ebc8da8d73450abb0933f5c7322104bc77cd844972f5',
     rewardTitle: 'Собирайся.', rewardText: 'В 14:00 у нас столик в Abadan Alash на Мынбаева. Дочку одеваю я.' },
 
-  { type: 'puzzle', part: 'День', id: 'p1',
+  { type: 'puzzle', part: 'День', id: 'p1', label: 'Пазл в машине',
     kicker: 'Игра', title: 'Пока едем, собери нас.',
     text: 'Нажми на два кусочка, и они поменяются местами.',
     photo: 'media/p_puzzle.jpg',
     rewardTitle: 'Все трое на месте.', rewardPhoto: 'media/p_puzzle.jpg', letter: 'Ы' },
 
-  { type: 'show', part: 'День', id: 't1',
+  { type: 'show', part: 'День', id: 't1', label: 'Задание на обед',
     kicker: 'Задание на обед',
     title: 'В «Наизусть» ты написала, что в незнакомом кафе закажешь плов.',
     text: 'Сегодня возьми то, чего ни разу не пробовала.',
     btn: 'Хорошо' },
 
-  { type: 'gate', part: 'День', id: 'g_evening',
+  { type: 'gate', part: 'День', id: 'g_evening', label: 'Едем домой',
     title: 'Едем домой.',
     text: 'Вечером будут последние шаги.',
     h: 'da01e568d56bfbacce6e11e7902d9f972c566853b8c7a795e342002d203c525f' },
 
-  { type: 'step', part: 'Вечер', id: 's8',
+  { type: 'step', part: 'Вечер', id: 's8', label: 'Уральск',
     photo: 'media/p6.jpg',
     q: 'Уральск, собираем сумку в роддом. Для кого мы раскладывали все эти вещи?',
     h: 'c363831cbfee684fa8a7d96b58cf42f5174ea935bc3b751fff18c237d34d0366',
     rewardTitle: 'Для неё.', rewardPhoto: 'media/p6_reward.jpg', coupon: 'Одно желание', rewardText: 'Любое, в пределах разумного.' },
 
-  { type: 'show', part: 'Вечер', id: 's9',
+  { type: 'show', part: 'Вечер', id: 's9', label: 'Наша история',
     title: 'Это мы.',
     video: 'media/v_story.mp4' },
 
-  { type: 'hug', part: 'Вечер', id: 'h1',
+  { type: 'hug', part: 'Вечер', id: 'h1', label: 'Обними меня',
     kicker: 'Задание', title: 'Обними меня.',
     text: 'И держи палец на сердце, пока обнимаешь. Отпустишь раньше, оно подождёт.',
     ms: 10000,
     rewardTitle: 'Жүрек толды.', letter: 'Ж' },
 
-  { type: 'word', part: 'Вечер', id: 'w1',
+  { type: 'word', part: 'Вечер', id: 'w1', label: 'Собери слово',
     kicker: 'Последняя загадка', title: 'Собери слово.',
     text: 'Пять букв, ты копила их весь день.',
     word: 'ЖАНЫМ',
     rewardTitle: 'Жаным.', rewardText: 'Так я тебя зову. Осталось последнее видео.' },
 
-  { type: 'show', part: 'Вечер', id: 's10',
+  { type: 'show', part: 'Вечер', id: 's10', label: 'Последнее видео',
     title: '',
     video: 'media/v_final.mp4' },
 
@@ -296,12 +379,29 @@ function media(it) {
   return h;
 }
 
+const KZ = { 'Ночь': 'Түн', 'Утро': 'Таң', 'День': 'Күн', 'Вечер': 'Кеш' };
+const SKY = { 'Ночь': '#2b2468', 'Утро': '#ffc9b8', 'День': '#a9c8f2', 'Вечер': '#b0638f' };
+const MOMENTS = FLOW.filter(x => x.type !== 'intro' && x.type !== 'final');
+const partOf = it => it.part || (it.type === 'final' ? 'Вечер' : 'Ночь');
+
+// Дуга дня: точка на каждый момент, солнце или луна стоит на текущем.
 function bar(it) {
-  const steps = FLOW.filter(x => x.type !== 'intro' && x.type !== 'final');
-  const done = FLOW.slice(0, S.i).filter(x => x.type !== 'intro' && x.type !== 'final').length;
-  const dots = steps.map((_, k) => `<i class="${k < done ? 'on' : ''}"></i>`).join('');
-  const w = S.coupons.length ? `<button class="wallet-btn" onclick="openWallet()">Купоны · ${S.coupons.length}</button>` : '';
-  return `<div class="top"><span>${esc(it.part || '')}</span><div class="dots">${dots}</div>${w}</div>`;
+  const n = MOMENTS.length, done = FLOW.slice(0, S.i).filter(x => MOMENTS.includes(x)).length;
+  const pt = t => [8 + 304 * t, 74 - 128 * t * (1 - t)];  // парабола 8..312, вершина y≈42
+  const tOf = k => (k + .5) / n;
+  const dots = MOMENTS.map((_, k) => { const [x, y] = pt(tOf(k)); return `<circle class="dot${k < done ? ' on' : ''}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${k < done ? 2.6 : 2}"/>`; }).join('');
+  const t = tOf(Math.min(done, n - 1)), [ox, oy] = pt(t);
+  const trail = Array.from({ length: 41 }, (_, k) => pt(t * k / 40).map(v => v.toFixed(1)).join(',')).join(' ');
+  const part = partOf(it), moon = part === 'Ночь' || part === 'Вечер';
+  const orb = moon
+    ? `<circle class="orb" cx="${ox}" cy="${oy}" r="9"/><circle class="crater" cx="${ox + 2.5}" cy="${oy - 2}" r="2.2"/><circle class="crater" cx="${ox - 3}" cy="${oy + 3}" r="1.4"/>`
+    : `<circle class="orb" cx="${ox}" cy="${oy}" r="10"/>`;
+  const badge = S.coupons.length + S.letters.length;
+  return `<div class="top"><button class="arc" onclick="openDay()" aria-label="Наш день: ${done} из ${n}">
+      <svg viewBox="0 0 320 84" aria-hidden="true"><polyline class="path" points="${Array.from({ length: 41 }, (_, k) => pt(k / 40).map(v => v.toFixed(1)).join(',')).join(' ')}"/>
+      ${done ? `<polyline class="done" points="${trail}"/>` : ''}${dots}${orb}</svg></button>
+    <div class="meta"><span><b>${KZ[part]}</b> · ${part.toLowerCase()} · ${done} из ${n}</span>
+      <button class="daybtn" onclick="openDay()">Наш день${badge ? ' · ' + badge : ''}</button></div></div>`;
 }
 
 function codeBox(label) {
@@ -312,12 +412,14 @@ function codeBox(label) {
 
 function render() {
   const it = FLOW[S.i];
+  document.body.dataset.part = partOf(it);
   window.scrollTo(0, 0);
   let h = '';
 
   if (it.type === 'intro') {
-    h = `<div class="card"><p class="kicker">2 октября</p><h1>${esc(it.title)}</h1><p>${esc(it.text)}</p>
-      <button class="btn" onclick="next()">${esc(it.btn)}</button></div>`;
+    h = bar(it) + `<div class="card hero first"><p class="date">2 қазан</p><h1>${esc(it.title)}</h1><p>${esc(it.text)}</p>
+      <button class="btn" onclick="next()">${esc(it.btn)}</button>
+      <div id="restore"><button class="link" onclick="restoreBox()">Уже начинала на другом телефоне?</button></div></div>`;
   }
 
   if (it.type === 'step') {
@@ -326,7 +428,7 @@ function render() {
       h += `<textarea id="ans" placeholder="Напиши здесь">${esc(S.answers[it.id] || '')}</textarea>
         <button class="btn" id="send">Ответить</button>`;
     } else if (S.phase === 'code') {
-      h += `<p><i>«${esc(S.answers[it.id])}»</i></p>` + codeBox('Записал. Теперь код, он у меня.');
+      h += `<p class="quote">«${esc(S.answers[it.id])}»</p>` + codeBox('Записал. Теперь код, он у меня.');
     } else {
       h += reward(it);
     }
@@ -352,10 +454,10 @@ function render() {
   if (it.type === 'final') {
     const answers = FLOW.filter(x => x.q && S.answers[x.id])
       .map(x => `<li><b>${esc(x.q)}</b>${esc(S.answers[x.id])}</li>`).join('');
-    h = `<div class="card"><p class="kicker">2 октября</p><h1>${esc(it.title)}</h1>
-      ${S.coupons.length ? `<p class="kicker" style="margin-top:18px">Твои купоны</p>` + S.coupons.map(c => `<div class="coupon">${esc(c)}</div>`).join('') : ''}
-      ${answers ? `<p class="kicker" style="margin-top:22px">Твои ответы сегодня</p><ul class="list">${answers}</ul>` : ''}
-      </div>`;
+    h = bar(it) + `<div class="card hero"><p class="date">2 қазан</p><h1>${esc(it.title)}</h1>
+      ${S.coupons.length ? `<p class="sec">Твои купоны</p><div class="mini">` + S.coupons.map(c => `<div class="coupon"><small>Купон</small>${esc(c)}</div>`).join('') + '</div>' : ''}
+      ${answers ? `<p class="sec">Твои ответы сегодня</p><ul class="list">${answers}</ul>` : ''}
+      <button class="btn" onclick="openDay()">Пересмотреть весь день</button></div>`;
   }
 
   app.innerHTML = h;
@@ -447,7 +549,7 @@ const GAMES = {
     const d = 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z';
     box.innerHTML = `<div class="heart" id="heart"><svg viewBox="0 0 24 24" aria-hidden="true">
       <defs><clipPath id="hc"><rect id="hf" x="0" y="21.4" width="24" height="24"/></clipPath></defs>
-      <path d="${d}" fill="#f3dfe4"/><path d="${d}" fill="#c9788b" clip-path="url(#hc)"/></svg>
+      <path class="bg" d="${d}"/><path class="fg" d="${d}" clip-path="url(#hc)"/></svg>
       <p class="muted">Держи палец здесь</p></div>`;
     const heart = box.querySelector('#heart'), fill = box.querySelector('#hf');
     let p = 0, timer = 0;
@@ -494,9 +596,14 @@ function scratch(el) {
   c.style.width = r.width + 'px'; c.style.height = r.height + 'px';
   const x = c.getContext('2d');
   x.scale(dpr, dpr);
-  x.fillStyle = '#dcb3bd'; x.fillRect(0, 0, r.width, r.height);
-  x.fillStyle = '#fff'; x.font = '600 16px -apple-system, sans-serif'; x.textAlign = 'center';
-  x.fillText('Сотри пальцем', r.width / 2, r.height / 2 + 6);
+  const g = x.createLinearGradient(0, 0, r.width, r.height);
+  ['#f3c9dc', '#cdd9f7', '#f7e4bd', '#dcc8f3', '#f3c9dc'].forEach((col, k) => g.addColorStop(k / 4, col));
+  x.fillStyle = g; x.fillRect(0, 0, r.width, r.height);
+  for (let k = 0; k < r.width * r.height / 40; k++) {
+    x.fillStyle = `rgba(255,255,255,${Math.random() * .5})`; x.fillRect(Math.random() * r.width, Math.random() * r.height, 1.2, 1.2);
+  }
+  x.fillStyle = '#5b3f6e'; x.font = '600 15px Rubik, -apple-system, sans-serif'; x.textAlign = 'center';
+  x.fillText('Сотри пальцем ✦', r.width / 2, r.height / 2 + 5);
   x.globalCompositeOperation = 'destination-out'; x.lineWidth = 38; x.lineCap = x.lineJoin = 'round';
   let last = null, n = 0;
   const at = e => { const b = c.getBoundingClientRect(); return [e.clientX - b.left, e.clientY - b.top]; };
@@ -550,29 +657,70 @@ function next() {
   S.i = Math.min(S.i + 1, FLOW.length - 1); S.phase = 'ask'; save(); render();
 }
 
-function openWallet() {
-  document.getElementById('walletBody').innerHTML = `<h2>Твои купоны</h2>` +
-    S.coupons.map(c => `<div class="coupon">${esc(c)}</div>`).join('') +
-    (S.letters.length ? `<p class="kicker" style="margin-top:18px;text-align:center">Буквы · ${S.letters.length} из ${LETTERS}</p>
-      <div class="tiles">${S.letters.map(l => `<span class="lt">${esc(l)}</span>`).join('')}</div>` : '') +
-    `<p class="muted" style="text-align:center;margin-top:12px">Чтобы воспользоваться, покажи мне экран.</p>
-     <button class="btn" onclick="wallet.classList.remove('open')">Закрыть</button>`;
+// Лист «Наш день»: купоны, буквы и все моменты по частям дня. Пройденное можно пересмотреть.
+function openDay() {
+  const now = FLOW[S.i];
+  const letters = Array.from({ length: LETTERS }, (_, k) => S.letters[k]
+    ? `<span class="lt">${esc(S.letters[k])}</span>` : `<span class="lt empty">?</span>`).join('');
+  const parts = ['Ночь', 'Утро', 'День', 'Вечер'].map(p => {
+    const rows = MOMENTS.filter(x => x.part === p).map(x => {
+      const k = FLOW.indexOf(x), st = k < S.i ? 'done' : x === now ? 'now' : 'later';
+      if (st === 'later') return `<li class="later"><span class="t">Сюрприз</span></li>`;
+      const ans = S.answers[x.id] ? `<span class="a">«${esc(S.answers[x.id])}»</span>` : '';
+      const m = st === 'done' && (x.video || x.photo || x.rewardPhoto) ? `<button class="re" data-k="${k}">Пересмотреть</button>` : '';
+      return `<li class="${st}"><span class="t">${esc(x.label)}</span>${st === 'now' ? ' <span class="muted">· сейчас</span>' : ''}${ans}${m}</li>`;
+    }).join('');
+    return `<div class="part"><i style="background:${SKY[p]}"></i>${KZ[p]} <small>${p.toLowerCase()}</small></div><ul class="tl">${rows}</ul>`;
+  }).join('');
+  walletBody.innerHTML = `<div class="grab"></div><h2>Наш день</h2>` +
+    `<p class="sec">Купоны · ${S.coupons.length}</p>` +
+    (S.coupons.length ? `<div class="mini">${S.coupons.map(c => `<div class="coupon"><small>Купон</small>${esc(c)}</div>`).join('')}</div>
+      <p class="muted" style="margin-top:8px">Чтобы воспользоваться, покажи мне экран.</p>` : `<p class="muted">Первый купон будет совсем скоро.</p>`) +
+    `<p class="sec">Буквы · ${S.letters.length} из ${LETTERS}</p><div class="tiles" style="justify-content:flex-start">${letters}</div>` +
+    `<p class="sec">Моменты</p>${parts}<button class="btn" onclick="wallet.classList.remove('open')">Закрыть</button>`;
+  walletBody.querySelectorAll('.re').forEach(b => b.onclick = () => {
+    const x = FLOW[+b.dataset.k];
+    b.outerHTML = media({ video: x.video, photo: x.photo || x.rewardPhoto });
+  });
   wallet.classList.add('open');
+  walletBody.scrollTop = 0;
 }
 wallet.onclick = e => { if (e.target === wallet) wallet.classList.remove('open'); };
+document.addEventListener('keydown', e => { if (e.key === 'Escape') wallet.classList.remove('open'); });
+
+// Другой телефон или браузер: любой выданный код возвращает её на место, где этот код открылся.
+function restoreBox() {
+  restore.innerHTML = `<p class="muted" style="margin-top:16px">Введи последний код, который я тебе дал.</p>
+    <input class="code" id="rcode" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" placeholder="····">
+    <button class="btn" id="rgo">Вернуться на место</button><div class="msg" id="rmsg"></div>`;
+  const inp = document.getElementById('rcode');
+  const go = async () => {
+    const hv = await sha(inp.value.trim()), k = FLOW.findIndex(x => x.h === hv);
+    if (k < 0) { rmsg.textContent = 'Этот код не подходит. Спроси у меня ещё раз.'; return; }
+    FLOW.slice(0, k + 1).forEach(collect);
+    if (FLOW[k].type === 'gate') { S.i = k + 1; S.phase = 'ask'; } else { S.i = k; S.phase = 'done'; }
+    save(); confetti(); render();
+  };
+  document.getElementById('rgo').onclick = go;
+  inp.onkeydown = e => { if (e.key === 'Enter') go(); };
+  inp.focus();
+}
 
 function confetti() {
   const box = document.getElementById('confetti');
-  const colors = ['#e9b8c3', '#c9788b', '#aac6e8', '#f3d9a4', '#ffffff'];
+  const colors = ['#f4b9d0', '#c2447a', '#a9c8f2', '#ffd8a8', '#cdb6f0'];
   box.innerHTML = Array.from({ length: 60 }, () => {
     const d = 1.6 + Math.random() * 1.6;
-    return `<i style="left:${Math.random() * 100}%;background:${colors[Math.random() * 5 | 0]};
+    return `<i style="left:${Math.random() * 100}%;width:${8 + Math.random() * 8 | 0}px;height:${8 + Math.random() * 8 | 0}px;background:${colors[Math.random() * 5 | 0]};
       --dx:${(Math.random() - .5) * 120}px;--r:${Math.random() * 720}deg;
       animation-duration:${d}s;animation-delay:${Math.random() * .4}s"></i>`;
   }).join('');
   setTimeout(() => box.innerHTML = '', 3400);
 }
 
+document.getElementById('stars').innerHTML = Array.from({ length: 70 }, () =>
+  `<b style="left:${Math.random() * 100}%;top:${Math.random() * 70}%;animation-delay:${-Math.random() * 3}s;${Math.random() < .2 ? 'width:3px;height:3px' : ''}"></b>`).join('');
+navigator.storage?.persist?.();
 render();
 </script>
 </body>
